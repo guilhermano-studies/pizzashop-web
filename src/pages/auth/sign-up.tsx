@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { registerRestaurant } from '@/api/register-retaurant'
+import { registerRestaurant } from '@/api/register-restaurant'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -34,15 +34,20 @@ export function SignUp() {
 
   async function handleSignUp(data: SignUpForm) {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await registerRestaurantFn({
+        restaurantName: data.restaurantName,
+        managerName: data.managerName,
+        email: data.email,
+        phone: data.phone
+      })
 
-      toast.success('Restaurante cadastrado com sucesso.', {
+      toast.success('Restaurante cadastrado com sucesso!', {
         action: {
           label: 'Login',
           onClick: () => navigate(`/sign-in?email=${data.email}`)
         }
       })
-    } catch {
+    } catch (error) {
       toast.error('Erro ao cadastrar restaurante.')
     }
   }
@@ -50,8 +55,9 @@ export function SignUp() {
   return (
     <>
       <Helmet title='Cadastro' />
+
       <div className='p-8'>
-        <Button asChild variant='ghost' className='absolute right-8 top-8'>
+        <Button variant='ghost' asChild className='absolute right-8 top-8'>
           <Link to='/sign-in'>Fazer login</Link>
         </Button>
 
@@ -61,11 +67,11 @@ export function SignUp() {
               Criar conta grátis
             </h1>
             <p className='text-sm text-muted-foreground'>
-              Seja um parceiro e inicie suas vendas!
+              Seja um parceiro e comece suas vendas!
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(handleSignUp)} className='space-y-4'>
+          <form className='space-y-4' onSubmit={handleSubmit(handleSignUp)}>
             <div className='space-y-2'>
               <Label htmlFor='restaurantName'>Nome do estabelecimento</Label>
               <Input
@@ -99,15 +105,14 @@ export function SignUp() {
             </Button>
 
             <p className='px-6 text-center text-sm leading-relaxed text-muted-foreground'>
-              Ao continuar você concorda com nossos{' '}
-              <a className='underline underline-offset-4' href=''>
-                termos de serviços
+              Ao continuar, você concorda com nossos{' '}
+              <a href='' className='underline underline-offset-4'>
+                termos de serviço
               </a>{' '}
               e{' '}
-              <a className='underline underline-offset-4' href=''>
+              <a href='' className='underline underline-offset-4'>
                 políticas de privacidade
               </a>
-              .
             </p>
           </form>
         </div>

@@ -96,7 +96,7 @@ export function StoreProfileDialog() {
 
       toast.success('Perfil atualizado com sucesso!')
     } catch (error) {
-      toast.success('Falha ao atualizar perfil, tente novamente!')
+      toast.error('Falha ao atualizar perfil, tente novamente!')
     }
   }
 
